@@ -1,0 +1,23 @@
+[
+  {
+    "clientId": "1",
+    "serializerName":"AppMsgSerializer",
+    "apiCodecName":"EmptyApiCodec",
+    "sessionInjectorName":"AppSessionInjector",
+    "rspContentType":"text/plain;charset=UTF-8"
+  },
+  {
+    "clientId": "2",
+    "serializerName":"FormJsonMsgSerializer",
+    "apiCodecName":"EmptyApiCodec",
+    "sessionInjectorName":"WebSessionInjector",
+    "rspContentType":"application/json;charset=UTF-8"
+  },
+  {
+    "clientId": "3",
+    "serializerName":"DoubleJsonMsgSerializer",
+    "apiCodecName":"EmptyApiCodec",
+    "sessionInjectorName":"WebSessionInjector",
+    "rspContentType":"application/json;charset=UTF-8"
+  }
+]
