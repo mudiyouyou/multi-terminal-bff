@@ -30,15 +30,13 @@ public class ApiInvoker {
 //        checkParameter(inputMessage);
         Object input = convertInput(inputMessage);
         //参数校验
-        ApiRsp rsp = null;
         try {
-            rsp = invoke(input);
+            return invoke(input);
         } catch (IllegalAccessException e) {
             throw new BusinessException(e, MsgCode.E_11009);
         } catch (InvocationTargetException e) {
             throw new BusinessException(e, MsgCode.E_11009);
         }
-        return rsp;
     }
 
     private ApiRsp invoke(Object input) throws InvocationTargetException, IllegalAccessException {

@@ -68,11 +68,11 @@ public class HttpApiHanler extends SimpleChannelInboundHandler<HttpObject> {
             // 注入session对象
             SessionInjector injector = context.getInjector();
             injector.inject(req, httpRequest, null);
-            log.debug("原始响应:{}", req);
             // 设置请求头
             req.setHeaders(httpRequest.headers());
             // 调用拦截器链
             ApiRsp rsp = chainContext.handle(req);
+            log.debug("原始响应:{}", rsp);
             // 序列化响应
             String outputMsg = serializer.serialize(rsp);
             // 加密响应报文

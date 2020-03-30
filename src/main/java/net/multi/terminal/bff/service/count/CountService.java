@@ -20,11 +20,14 @@ public class CountService {
     @ApiMapping(name = "Count")
     public CountRsp count(CountReq req) throws BusinessException {
         ApiSession session = req.getSession();
-        session.putIfAbsent("count",0);
+        session.putIfAbsent("count", 0);
         CountRsp rsp = new CountRsp(MsgCode.E_00000.getCode(), MsgCode.E_00000.getMessage());
         Integer count = (Integer) session.get("count") + 1;
-        session.put("count",count);
+        session.put("count", count);
         rsp.setCount(count);
+//        if (System.currentTimeMillis() % 2 == 0) {
+//            throw new BusinessException(MsgCode.E_11000);
+//        }
         return rsp;
     }
 

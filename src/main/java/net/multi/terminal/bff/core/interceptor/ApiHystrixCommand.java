@@ -47,7 +47,7 @@ public class ApiHystrixCommand extends HystrixCommand<ApiRsp> {
     protected ApiRsp getFallback() {
         if (getFailedExecutionException() instanceof BusinessException) {
             BusinessException e = (BusinessException) getFailedExecutionException();
-            log.error("调用错误",e);
+            log.error("业务异常",e);
             return new ApiRsp(e.getErrorCode(), e.getErrorDesc());
         }
         return new ApiRsp(MsgCode.E_19999.getCode(), MsgCode.E_19999.getMessage());
