@@ -2,7 +2,7 @@ package net.multi.terminal.bff.core.apimgr;
 
 import lombok.extern.slf4j.Slf4j;
 import net.multi.terminal.bff.constant.MsgCode;
-import net.multi.terminal.bff.exception.BusinessException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.beans.BeanUtils;
@@ -26,16 +26,16 @@ public class ApiInvoker {
         this.runContext = runContext;
     }
 
-    public final ApiRsp doInvoke(ApiReq inputMessage) throws BusinessException {
+    public final ApiRsp doInvoke(ApiReq inputMessage) throws ApiException {
 //        checkParameter(inputMessage);
         Object input = convertInput(inputMessage);
         //参数校验
         try {
             return invoke(input);
         } catch (IllegalAccessException e) {
-            throw new BusinessException(e, MsgCode.E_11009);
+            throw new ApiException(e, MsgCode.E_11009);
         } catch (InvocationTargetException e) {
-            throw new BusinessException(e, MsgCode.E_11009);
+            throw new ApiException(e, MsgCode.E_11009);
         }
     }
 
@@ -50,17 +50,17 @@ public class ApiInvoker {
         return bodyObj;
     }
 
-    public void checkParameter(Object t) throws BusinessException {
+    public void checkParameter(Object t) throws ApiException {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(t);
         if (!constraintViolations.isEmpty()) {
             StringBuilder buffer = new StringBuilder();
-            buffer.append(MsgCode.E_10001.getMessage());
+            buffer.append(MsgCode.E_11011.getMessage());
             constraintViolations.forEach((s) -> {
                 buffer.append("," + s.getMessage());
             });
-            BusinessException be = new BusinessException(MsgCode.E_10001, buffer.toString());
+            ApiException be = new ApiException(MsgCode.E_11011, buffer.toString());
             throw be;
         }
     }

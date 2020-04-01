@@ -3,8 +3,8 @@ package net.multi.terminal.bff.core.interceptor;
 import net.multi.terminal.bff.core.apimgr.ApiRunContext;
 import net.multi.terminal.bff.core.apimgr.ApiRunContextMgr;
 import net.multi.terminal.bff.core.auth.AuthMgr;
-import net.multi.terminal.bff.exception.BusinessException;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AuthInterceptor implements ApiInterceptor {
     }
 
     @Override
-    public ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws BusinessException, SystemException {
+    public ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws ApiException, ApiException {
         ApiRunContext apiRunContext = apiRunContextMgr.getApiRunContext(inputMessage.getApplication());
         if (apiRunContext.isIgnoreAuth()) {
             return chain.handle(inputMessage);

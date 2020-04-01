@@ -1,6 +1,6 @@
 package net.multi.terminal.bff.core.apimgr;
 
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class ApiMappingService  {
     @Autowired
     private ApiRunContextMgr apiRunContextMgr;
 
-    public ApiInvoker route(String apiName) throws SystemException {
+    public ApiInvoker route(String apiName) throws ApiException {
         ApiRunContext runContext = apiRunContextMgr.getApiRunContext(apiName);
         return new ApiInvoker(runContext);
     }

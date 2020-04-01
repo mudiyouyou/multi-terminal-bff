@@ -5,7 +5,7 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import net.multi.terminal.bff.constant.MsgCode;
 import net.multi.terminal.bff.core.session.SessionInjector;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiSession;
 import org.apache.commons.lang.StringUtils;
@@ -19,9 +19,9 @@ public class AppSessionInjector implements SessionInjector {
     private RedisTemplate<String,Object> redisTemplate;
 
     @Override
-    public void inject(ApiReq req, FullHttpRequest request, FullHttpResponse response) throws SystemException {
+    public void inject(ApiReq req, FullHttpRequest request, FullHttpResponse response) throws ApiException {
         if (StringUtils.isEmpty(req.getTerminalPhysicalNo())) {
-            throw new SystemException(MsgCode.E_11010, HttpResponseStatus.BAD_REQUEST);
+            throw new ApiException(MsgCode.E_11010, HttpResponseStatus.BAD_REQUEST);
         }
         req.setSession(new ApiSession(req.getTerminalPhysicalNo(), redisTemplate));
     }

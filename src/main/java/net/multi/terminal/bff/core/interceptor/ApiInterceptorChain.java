@@ -1,7 +1,7 @@
 package net.multi.terminal.bff.core.interceptor;
 
-import net.multi.terminal.bff.exception.BusinessException;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 
@@ -16,7 +16,7 @@ public class ApiInterceptorChain {
         this.instance = instance;
     }
 
-    public ApiRsp handle(ApiReq req) throws BusinessException, SystemException {
+    public ApiRsp handle(ApiReq req) throws ApiException, ApiException {
         return instance.handle(req, next);
     }
 

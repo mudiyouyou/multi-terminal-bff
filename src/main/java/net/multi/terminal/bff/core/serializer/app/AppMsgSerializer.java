@@ -8,7 +8,7 @@ import net.multi.terminal.bff.constant.MsgCode;
 import net.multi.terminal.bff.core.codec.CommonMsg;
 import net.multi.terminal.bff.core.constant.MessageKeys;
 import net.multi.terminal.bff.core.serializer.AbtractMsgSerializer;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class AppMsgSerializer extends AbtractMsgSerializer {
             req.setMobileNum(jsonObject.getString(MessageKeys.MOBILE_NUM));
             req.setTerminalPhysicalNo(jsonObject.getString(MessageKeys.TERMINAL_PHYSICAL_NO));
         } catch (Exception e) {
-            throw new SystemException(e, MsgCode.E_11006,HttpResponseStatus.BAD_REQUEST);
+            throw new ApiException(e, MsgCode.E_11006,HttpResponseStatus.BAD_REQUEST);
         }
         return req;
     }

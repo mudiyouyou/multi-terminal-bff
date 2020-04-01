@@ -18,7 +18,7 @@ public class AuthMgr {
     }
 
     public ApiRsp response(ApiReq inputMessage) {
-        return new ApiRsp(MsgCode.E_10002.getCode(), MsgCode.E_10002.getMessage());
+        return new ApiRsp(MsgCode.E_11012.getCode(), MsgCode.E_11012.getMessage());
     }
 
     public void authorize(ApiSession apiSession) {

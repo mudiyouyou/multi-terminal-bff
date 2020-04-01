@@ -1,7 +1,7 @@
 package net.multi.terminal.bff.core.interceptor;
 
-import net.multi.terminal.bff.exception.BusinessException;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.beans.BeansException;
@@ -44,7 +44,7 @@ public class ApiInterceptorChainContext implements ApplicationContextAware {
         this.context = applicationContext;
     }
 
-    public ApiRsp handle(ApiReq req) throws BusinessException, SystemException {
+    public ApiRsp handle(ApiReq req) throws ApiException, ApiException {
         return first.handle(req);
     }
 }

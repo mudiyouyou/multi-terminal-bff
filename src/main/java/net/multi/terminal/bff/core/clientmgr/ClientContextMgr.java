@@ -7,7 +7,7 @@ import net.multi.terminal.bff.constant.MsgCode;
 import net.multi.terminal.bff.core.codec.ApiCodec;
 import net.multi.terminal.bff.core.serializer.MsgSerializer;
 import net.multi.terminal.bff.core.session.SessionInjector;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ClientContext;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
@@ -37,9 +37,9 @@ public class ClientContextMgr implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     @PostConstruct
-    public void preHandle() throws SystemException, IOException {
+    public void preHandle() throws ApiException, IOException {
         if (!clientSetting.exists() || !clientSetting.isReadable()) {
-            throw new SystemException("在classpath上没有找到文件client-setting.json");
+            throw new ApiException("在classpath上没有找到文件client-setting.json");
         }
         byte[] content = Files.readAllBytes(Paths.get(clientSetting.getURI()));
         List<ClientContext> list = JSON.parseArray(new String(content, "utf-8"), ClientContext.class);
@@ -67,13 +67,13 @@ public class ClientContextMgr implements ApplicationContextAware {
         c.setSerializer(applicationContext.getBean(c.getSerializerName(), MsgSerializer.class));
     }
 
-    public ClientContext getContext(String clientId) throws SystemException {
+    public ClientContext getContext(String clientId) throws ApiException {
         if (null == clientId) {
-            throw new SystemException(MsgCode.E_11000, HttpResponseStatus.BAD_REQUEST);
+            throw new ApiException(MsgCode.E_11000, HttpResponseStatus.BAD_REQUEST);
         }
         ClientContext context = map.get(clientId);
         if (null == context) {
-            throw new SystemException(MsgCode.E_11000, HttpResponseStatus.BAD_REQUEST);
+            throw new ApiException(MsgCode.E_11000, HttpResponseStatus.BAD_REQUEST);
         }
         return context;
     }

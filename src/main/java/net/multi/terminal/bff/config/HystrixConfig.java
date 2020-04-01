@@ -1,6 +1,6 @@
 package net.multi.terminal.bff.config;
 
-public interface DynamicConfigMBean {
+public interface HystrixConfig {
 
     boolean getCircuitBreakerEnabled();
 

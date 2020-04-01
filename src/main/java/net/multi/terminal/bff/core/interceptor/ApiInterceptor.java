@@ -1,7 +1,7 @@
 package net.multi.terminal.bff.core.interceptor;
 
-import net.multi.terminal.bff.exception.BusinessException;
-import net.multi.terminal.bff.exception.SystemException;
+import net.multi.terminal.bff.exception.ApiException;
+import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 
@@ -22,7 +22,7 @@ public interface ApiInterceptor {
      * @param inputMessage
      * @param chain
      * @return
-     * @throws BusinessException
+     * @throws ApiException
      */
-    ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws BusinessException, SystemException;
+    ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws ApiException, ApiException;
 }

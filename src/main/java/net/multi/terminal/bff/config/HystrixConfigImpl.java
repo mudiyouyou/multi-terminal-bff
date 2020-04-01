@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ManagedResource(objectName = "net.multi.terminal.bff:type=HystrixConfig")
-public class DynamicConfigMBeanImpl implements DynamicConfigMBean {
+public class HystrixConfigImpl implements HystrixConfig {
     @Value("${hystrix.circuitBreakerEnabled}")
     private boolean circuitBreakerEnable = false;
     private int circuitBreakerRequestVolumeThreshold = 5;
     private int circuitBreakerErrorThresholdPercentage = 50;
-    private int circuitBreakerSleepWindowInMilliseconds = 1000;
+    private int circuitBreakerSleepWindowInMilliseconds = 10000;
     private int threadPoolCoreSize = 2;
     private int threadPoolMaximumSize = 20;
     @ManagedMetric

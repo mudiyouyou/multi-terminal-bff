@@ -5,33 +5,43 @@ import lombok.Data;
 import net.multi.terminal.bff.constant.MsgCode;
 
 @Data
-public class SystemException extends Exception {
+public class ApiException extends Exception {
     private static final long serialVersionUID = 1L;
     private String errorCode;
     private String errorDesc;
     private HttpResponseStatus httpResponseStatus = HttpResponseStatus.INTERNAL_SERVER_ERROR;
 
-    public SystemException(String message) {
+    public ApiException(String message) {
         super(message);
     }
 
-    public SystemException(MsgCode code) {
+    public ApiException(MsgCode code) {
         super(code.getMessage());
         this.errorCode = code.getCode();
         this.errorDesc = code.getMessage();
     }
 
-    public SystemException(MsgCode code, HttpResponseStatus status) {
+    public ApiException(MsgCode code, String errorDesc) {
+        super(errorDesc);
+        this.errorCode = code.getCode();
+        this.errorDesc = errorDesc;
+    }
+
+    public ApiException(MsgCode code, HttpResponseStatus status) {
         this(code);
         this.httpResponseStatus = status;
     }
 
 
-    public SystemException(Throwable cause, MsgCode code, HttpResponseStatus status) {
+    public ApiException(Throwable cause, MsgCode code, HttpResponseStatus status) {
         super(code.getMessage(), cause);
         this.errorCode = code.getCode();
         this.errorDesc = code.getMessage();
         this.httpResponseStatus = status;
+    }
+
+    public ApiException(Throwable cause, MsgCode code) {
+        this(cause,code,HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
