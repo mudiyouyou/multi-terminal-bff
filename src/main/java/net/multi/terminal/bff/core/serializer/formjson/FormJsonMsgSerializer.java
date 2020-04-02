@@ -6,26 +6,32 @@ import com.google.common.base.Splitter;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import net.multi.terminal.bff.constant.MsgCode;
+import net.multi.terminal.bff.core.apiname.ApiIdentity;
 import net.multi.terminal.bff.core.codec.CommonMsg;
 import net.multi.terminal.bff.core.constant.MessageKeys;
 import net.multi.terminal.bff.core.serializer.AbtractMsgSerializer;
 import net.multi.terminal.bff.exception.ApiException;
+import net.multi.terminal.bff.exception.SystemException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Component("FormJsonMsgSerializer")
 public class FormJsonMsgSerializer extends AbtractMsgSerializer {
 
     @Override
-    public ApiReq deserialize(String clientId, CommonMsg commonMsg) throws Exception {
+    public ApiReq deserialize(ApiIdentity identity, CommonMsg commonMsg) throws SystemException {
         ApiReq req = null;
         try {
+            Objects.requireNonNull(commonMsg);
+            Objects.requireNonNull(commonMsg.getMessage());
             Map<String, String> params = Splitter.on("&").omitEmptyStrings().withKeyValueSeparator("=").split(commonMsg.getMessage());
+            Objects.requireNonNull(params);
             JSONObject jsonObject = new JSONObject();
             for (String key : params.keySet()) {
                 List<String> values = Splitter.on(",").splitToList(params.get(key));
@@ -34,18 +40,18 @@ public class FormJsonMsgSerializer extends AbtractMsgSerializer {
                 }
             }
             req = new ApiReq();
-            req.setClientId(clientId);
-            req.setApplication(getApiName(jsonObject.getString(MessageKeys.APPLICATION)));
-            req.setVersion(jsonObject.getString(MessageKeys.VERSION));
+            req.setClientId(identity.getClientId());
+            req.setApiName(identity.getApiName());
+            req.setVersion(identity.getVersion());
             req.setBody(jsonObject);
         } catch (Exception e) {
-            throw new ApiException(e, MsgCode.E_11006, HttpResponseStatus.BAD_REQUEST);
+            throw new SystemException(e, MsgCode.E_11006, HttpResponseStatus.BAD_REQUEST);
         }
         return req;
     }
 
     @Override
-    public String serialize(ApiRsp rsp) throws Exception {
+    public String serialize(ApiRsp rsp) throws SystemException {
         return JSON.toJSONString(rsp);
     }
 

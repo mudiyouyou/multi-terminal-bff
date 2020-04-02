@@ -1,5 +1,7 @@
 package net.multi.terminal.bff.core.apimgr;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
+import net.multi.terminal.bff.constant.MsgCode;
 import net.multi.terminal.bff.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,9 @@ public class ApiMappingService  {
 
     public ApiInvoker route(String apiName) throws ApiException {
         ApiRunContext runContext = apiRunContextMgr.getApiRunContext(apiName);
+        if (runContext == null) {
+            throw new ApiException(MsgCode.E_11003, HttpResponseStatus.BAD_REQUEST);
+        }
         return new ApiInvoker(runContext);
     }
 

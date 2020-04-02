@@ -24,7 +24,7 @@ public class ApiReq {
      * 全终端使用：Api名称
      */
     @NotNull(message = "接口名称不能为空")
-    private String application;
+    private String apiName;
     /**
      * app端使用：签名
      */

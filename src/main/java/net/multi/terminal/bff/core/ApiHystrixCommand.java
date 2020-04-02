@@ -4,6 +4,7 @@ import com.netflix.hystrix.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.multi.terminal.bff.config.HystrixConfig;
 import net.multi.terminal.bff.core.apiname.ApiIdentity;
@@ -39,6 +40,10 @@ public class ApiHystrixCommand extends HystrixCommand<Void> {
                         .withCircuitBreakerErrorThresholdPercentage(hystrixConfig.getCircuitBreakerErrorThresholdPercentage())
                         .withCircuitBreakerSleepWindowInMilliseconds(hystrixConfig.getCircuitBreakerSleepWindowInMilliseconds())
                 )
+                .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()
+                        .withCoreSize(hystrixConfig.getThreadPoolCoreSize())
+                        .withMaximumSize(hystrixConfig.getThreadPoolMaximumSize())
+                )
         );
         this.nettyCtx = nettyCtx;
         this.httpRequest = httpRequest;
@@ -50,6 +55,7 @@ public class ApiHystrixCommand extends HystrixCommand<Void> {
     @Override
     protected Void run() throws Exception {
         proccessor.process(identity, nettyCtx, httpRequest);
+        ReferenceCountUtil.release(httpRequest);
         return null;
     }
 
@@ -67,6 +73,8 @@ public class ApiHystrixCommand extends HystrixCommand<Void> {
         } else {
             send(nettyCtx, "", buildResponse(HttpResponseStatus.INTERNAL_SERVER_ERROR, clientContext.getRspContentType()));
         }
+        ReferenceCountUtil.release(httpRequest);
         return null;
     }
+
 }

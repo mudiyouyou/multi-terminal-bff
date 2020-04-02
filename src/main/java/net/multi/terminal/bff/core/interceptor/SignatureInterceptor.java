@@ -52,6 +52,6 @@ public class SignatureInterceptor implements ApiInterceptor {
     }
 
     private boolean isInBlackList(ApiReq inputMessage) {
-        return blackList.contains(inputMessage.getApplication());
+        return blackList.contains(inputMessage.getApiName());
     }
 }

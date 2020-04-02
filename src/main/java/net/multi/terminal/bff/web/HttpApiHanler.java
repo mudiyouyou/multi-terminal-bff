@@ -19,6 +19,9 @@ import net.multi.terminal.bff.model.ClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
+import java.util.Optional;
+
 import static net.multi.terminal.bff.core.util.NettyUtil.buildResponse;
 import static net.multi.terminal.bff.core.util.NettyUtil.send;
 
@@ -44,6 +47,10 @@ public class HttpApiHanler extends SimpleChannelInboundHandler<HttpObject> {
     @Autowired
     private ApiMappingService apiMapping;
 
+    public HttpApiHanler() {
+        super(false);
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext nettyContext, HttpObject msg) throws Exception {
         // 过滤Http全报文
@@ -58,19 +65,15 @@ public class HttpApiHanler extends SimpleChannelInboundHandler<HttpObject> {
         // 获取clientId
         ApiIdentity identity = identityExtractor.extract(httpRequest);
         ClientContext clientContext = clientContextMgr.getContext(identity.getClientId());
-        if (clientContext == null) {
-            throw new ApiException(MsgCode.E_11000, HttpResponseStatus.BAD_REQUEST);
-        }
-        if (apiMapping.route(identity.getApiName()) == null) {
-            throw new ApiException(MsgCode.E_11003, HttpResponseStatus.BAD_REQUEST);
-        }
+        apiMapping.route(identity.getApiName());
+        httpRequest.content().toString(Charset.forName("UTF-8"));
         // 异步执行
         new ApiHystrixCommand(identity, clientContext, proccessor, nettyContext, httpRequest, hystrixConfig).queue();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) {
-        send(ctx, throwable.getMessage() == null ? MsgCode.E_19999.getMessage() : throwable.getMessage(),
+        send(ctx, Optional.ofNullable(throwable.getMessage()).orElse(MsgCode.E_19999.getMessage()),
                 buildResponse(HttpResponseStatus.BAD_REQUEST, "text/plain;charset=UTF-8"));
     }
 }

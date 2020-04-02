@@ -12,10 +12,15 @@ import org.springframework.stereotype.Component;
 public class HystrixConfigImpl implements HystrixConfig {
     @Value("${hystrix.circuitBreakerEnabled}")
     private boolean circuitBreakerEnable = false;
+    @Value("${hystrix.circuitBreakerRequestVolumeThreshold}")
     private int circuitBreakerRequestVolumeThreshold = 5;
+    @Value("${hystrix.circuitBreakerErrorThresholdPercentage}")
     private int circuitBreakerErrorThresholdPercentage = 50;
+    @Value("${hystrix.circuitBreakerSleepWindowInMilliseconds}")
     private int circuitBreakerSleepWindowInMilliseconds = 10000;
+    @Value("${hystrix.threadPoolCoreSize}")
     private int threadPoolCoreSize = 2;
+    @Value("${hystrix.threadPoolMaximumSize}")
     private int threadPoolMaximumSize = 20;
     @ManagedMetric
     public boolean getCircuitBreakerEnabled() {

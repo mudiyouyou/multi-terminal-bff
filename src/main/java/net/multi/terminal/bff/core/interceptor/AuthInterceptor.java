@@ -27,7 +27,7 @@ public class AuthInterceptor implements ApiInterceptor {
 
     @Override
     public ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws ApiException, ApiException {
-        ApiRunContext apiRunContext = apiRunContextMgr.getApiRunContext(inputMessage.getApplication());
+        ApiRunContext apiRunContext = apiRunContextMgr.getApiRunContext(inputMessage.getApiName());
         if (apiRunContext.isIgnoreAuth()) {
             return chain.handle(inputMessage);
         }else {

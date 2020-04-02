@@ -5,13 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import net.multi.terminal.bff.constant.MsgCode;
+import net.multi.terminal.bff.core.apiname.ApiIdentity;
 import net.multi.terminal.bff.core.codec.CommonMsg;
-import net.multi.terminal.bff.core.constant.MessageKeys;
 import net.multi.terminal.bff.core.serializer.AbtractMsgSerializer;
-import net.multi.terminal.bff.exception.ApiException;
+import net.multi.terminal.bff.exception.SystemException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Slf4j
 @Component("DoubleJsonMsgSerializer")
@@ -19,23 +21,24 @@ public class DoubleJsonMsgSerializer extends AbtractMsgSerializer {
 
 
     @Override
-    public ApiReq deserialize(String clientId, CommonMsg commonMsg) throws Exception {
-        ApiReq req = null;
+    public ApiReq deserialize(ApiIdentity identity, CommonMsg commonMsg) throws SystemException {
         try {
-            req = new ApiReq();
+            Objects.requireNonNull(commonMsg);
+            Objects.requireNonNull(commonMsg.getMessage());
+            ApiReq req = new ApiReq();
             final JSONObject jsonObject = JSON.parseObject(commonMsg.getMessage());
-            req.setClientId(clientId);
-            req.setApplication(getApiName(jsonObject.getString(MessageKeys.APPLICATION)));
-            req.setVersion(jsonObject.getString(MessageKeys.VERSION));
+            req.setClientId(identity.getClientId());
+            req.setApiName(identity.getApiName());
+            req.setVersion(identity.getVersion());
             req.setBody(jsonObject);
+            return req;
         } catch (Exception e) {
-            throw new ApiException(e, MsgCode.E_11006, HttpResponseStatus.BAD_REQUEST);
+            throw new SystemException(e, MsgCode.E_11006, HttpResponseStatus.BAD_REQUEST);
         }
-        return req;
     }
 
     @Override
-    public String serialize(ApiRsp rsp) throws Exception {
+    public String serialize(ApiRsp rsp) throws SystemException {
         return JSON.toJSONString(rsp);
     }
 

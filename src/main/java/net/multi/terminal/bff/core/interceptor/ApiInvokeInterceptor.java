@@ -24,8 +24,8 @@ public class ApiInvokeInterceptor implements ApiInterceptor {
     }
 
     @Override
-    public ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws ApiException, ApiException {
-        ApiInvoker apiInvoker = apiMapping.route(inputMessage.getApplication());
+    public ApiRsp handle(ApiReq inputMessage, ApiInterceptorChain chain) throws ApiException {
+        ApiInvoker apiInvoker = apiMapping.route(inputMessage.getApiName());
         return apiInvoker.doInvoke(inputMessage);
     }
 }
