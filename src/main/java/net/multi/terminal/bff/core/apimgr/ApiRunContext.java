@@ -1,5 +1,6 @@
 package net.multi.terminal.bff.core.apimgr;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
@@ -9,11 +10,11 @@ import java.lang.reflect.Type;
  */
 public class ApiRunContext {
     private final Class argType;
-    private final Method method;
+    private final MethodHandle method;
     private final Object instance;
     private final boolean ignoreAuth;
     private final boolean signable;
-    public ApiRunContext(Method method, Object instance, Class argType, boolean ignoreAuth,boolean signable) {
+    public ApiRunContext(MethodHandle method, Object instance, Class argType, boolean ignoreAuth,boolean signable) {
         this.argType = argType;
         this.method = method;
         this.instance = instance;
@@ -21,11 +22,11 @@ public class ApiRunContext {
         this.signable = signable;
     }
 
-    public Type getArgType() {
+    public Class getArgType() {
         return argType;
     }
 
-    public Method getMethod() {
+    public MethodHandle getMethod() {
         return method;
     }
 
