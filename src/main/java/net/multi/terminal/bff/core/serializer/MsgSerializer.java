@@ -1,6 +1,6 @@
 package net.multi.terminal.bff.core.serializer;
 
-import net.multi.terminal.bff.core.apiname.ApiIdentity;
+import net.multi.terminal.bff.core.identity.ApiIdentity;
 import net.multi.terminal.bff.core.codec.CommonMsg;
 import net.multi.terminal.bff.exception.SystemException;
 import net.multi.terminal.bff.model.ApiReq;

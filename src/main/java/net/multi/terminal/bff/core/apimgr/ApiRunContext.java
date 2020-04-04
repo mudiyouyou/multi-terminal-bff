@@ -26,7 +26,7 @@ public class ApiRunContext {
         return argType;
     }
 
-    public MethodHandle getMethod() {
+    public MethodHandle getMethodHandle() {
         return method;
     }
 

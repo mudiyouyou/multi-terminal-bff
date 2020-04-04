@@ -6,7 +6,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import net.multi.terminal.bff.constant.MsgCode;
-import net.multi.terminal.bff.core.apiname.ApiIdentity;
+import net.multi.terminal.bff.core.identity.ApiIdentity;
 import net.multi.terminal.bff.core.clientmgr.ClientContextMgr;
 import net.multi.terminal.bff.core.codec.ApiCodec;
 import net.multi.terminal.bff.core.codec.CommonMsg;
@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.Charset;
-import java.util.Objects;
 
 import static net.multi.terminal.bff.core.util.NettyUtil.buildResponse;
 import static net.multi.terminal.bff.core.util.NettyUtil.send;

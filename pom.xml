@@ -25,14 +25,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.42.Final</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${springboot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.42.Final</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -81,7 +86,8 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <filters>
-            <filter>src/main/resources/application-${param}.properties</filter>
+            <filter>src/main/resources/application.properties</filter>
+            <filter>src/main/resources/application-${env}.properties</filter>
         </filters>
         <resources>
             <resource>
@@ -113,19 +119,21 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${springboot.version}</version>
+                <configuration>
+                    <mainClass>net.multi.terminal.bff.MutliTerminalBff</mainClass>
+                </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.4.3</version>
                 <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <encoding>utf-8</encoding>
+                    <useDefaultDelimiters>true</useDefaultDelimiters>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.2.0</version>
                 <configuration>
                     <descriptors>
                         <descriptor>assembly.xml</descriptor>
@@ -150,13 +158,13 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <param>dev</param>
+                <env>dev</env>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
-                <param>prod</param>
+                <env>prod</env>
             </properties>
         </profile>
     </profiles>

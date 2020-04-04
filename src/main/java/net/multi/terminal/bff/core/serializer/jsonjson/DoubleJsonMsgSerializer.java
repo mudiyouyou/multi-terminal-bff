@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import net.multi.terminal.bff.constant.MsgCode;
-import net.multi.terminal.bff.core.apiname.ApiIdentity;
+import net.multi.terminal.bff.core.identity.ApiIdentity;
 import net.multi.terminal.bff.core.codec.CommonMsg;
 import net.multi.terminal.bff.core.serializer.AbtractMsgSerializer;
 import net.multi.terminal.bff.exception.SystemException;

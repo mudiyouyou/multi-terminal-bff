@@ -6,14 +6,11 @@ import net.multi.terminal.bff.exception.ApiException;
 import net.multi.terminal.bff.model.ApiReq;
 import net.multi.terminal.bff.model.ApiRsp;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.TypeConverter;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
@@ -39,7 +36,7 @@ public class ApiInvoker {
     }
 
     private ApiRsp invoke(Object input) throws Throwable {
-        return (ApiRsp) runContext.getMethod().bindTo(runContext.getInstance()).invoke(input);
+        return (ApiRsp) runContext.getMethodHandle().bindTo(runContext.getInstance()).invoke(input);
     }
 
 

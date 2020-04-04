@@ -1,4 +1,4 @@
-package net.multi.terminal.bff.core.apiname;
+package net.multi.terminal.bff.core.identity;
 
 import lombok.Data;
 
